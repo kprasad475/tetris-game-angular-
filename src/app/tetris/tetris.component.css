@@ -18,6 +18,12 @@
     margin-top: 20px;
   }
   
+
+  canvas {
+    display: block;
+    margin: auto;
+  }
+  
   button {
     margin: 5px;
   }

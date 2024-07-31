@@ -1,12 +1,7 @@
-<div class="tetris-container">
-    <div class="game-board">
-      <!-- Game board grid will be dynamically generated here -->
-    </div>
-    <div class="controls">
-      <button mat-button (click)="moveLeft()">Left</button>
-      <button mat-button (click)="moveRight()">Right</button>
-      <button mat-button (click)="rotate()">Rotate</button>
-      <button mat-button (click)="moveDown()">Down</button>
-    </div>
-  </div>
-  
+<canvas id="gameCanvas" width="200" height="400" style="background: rgb(53, 110, 117);"></canvas>
+<div>
+  <button (click)="moveLeft()">Left</button>
+  <button (click)="moveRight()">Right</button>
+  <button (click)="rotate()">Rotate</button>
+  <button (click)="moveDown()">Down</button>
+</div>
