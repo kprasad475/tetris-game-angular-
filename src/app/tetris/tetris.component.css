@@ -49,4 +49,9 @@
   button:focus {
     outline: none;
   }
-  
+  .score {
+    margin-top: 15px;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+  }

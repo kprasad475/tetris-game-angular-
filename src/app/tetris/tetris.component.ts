@@ -23,6 +23,7 @@ export class TetrisComponent implements OnInit {
   currentX: number = 0;
   currentY: number = 0;
   isBrowser: boolean;
+  score: number = 0;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -38,6 +39,24 @@ export class TetrisComponent implements OnInit {
     this.board = Array.from({ length: 20 }, () => Array(10).fill(0));
   }
 
+  checkForCompleteLines() {
+    let linesCleared = 0;
+    for (let y = this.board.length - 1; y >= 0; y--) {
+      if (this.board[y].every(cell => cell !== 0)) {
+        this.board.splice(y, 1);
+        this.board.unshift(Array(10).fill(0));
+        linesCleared++;
+        y++;
+      }
+    }
+    this.updateScore(linesCleared);
+  }
+
+  updateScore(linesCleared: number) {
+    const points = [0, 100, 300, 500, 800];
+    this.score += points[linesCleared];
+  }
+
   spawnPiece() {
     const pieceIndex = Math.floor(Math.random() * TETROMINOES.length);
     this.currentPiece = TETROMINOES[pieceIndex];
@@ -47,6 +66,7 @@ export class TetrisComponent implements OnInit {
     if (!this.isValidPosition(this.currentX, this.currentY)) {
       // Game over logic
       this.initBoard();
+      alert('Game Over');
     }
   }
 
@@ -96,7 +116,7 @@ export class TetrisComponent implements OnInit {
       this.currentY++;
     } else {
       this.placePiece();
-      this.clearLines();
+      this.checkForCompleteLines();
       this.spawnPiece();
     }
     this.draw();
@@ -110,10 +130,6 @@ export class TetrisComponent implements OnInit {
         }
       }
     }
-  }
-
-  clearLines() {
-    // Logic to clear full lines and update the score
   }
 
   draw() {
