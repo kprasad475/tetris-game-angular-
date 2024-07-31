@@ -39,6 +39,8 @@ export class TetrisComponent implements OnInit {
     this.board = Array.from({ length: 20 }, () => Array(10).fill(0));
   }
 
+  
+
   checkForCompleteLines() {
     let linesCleared = 0;
     for (let y = this.board.length - 1; y >= 0; y--) {
@@ -166,6 +168,17 @@ export class TetrisComponent implements OnInit {
       }
     }
   }
+  dropPiece() {
+    while (this.isValidPosition(this.currentX, this.currentY + 1)) {
+      this.currentY++;
+    }
+    this.placePiece();
+    this.checkForCompleteLines();
+    this.spawnPiece();
+    this.draw();
+  }
+
+
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
@@ -184,6 +197,10 @@ export class TetrisComponent implements OnInit {
       case 'ArrowUp':
         this.rotate();
         break;
+        case ' ':
+          // Space key to drop the piece
+          this.dropPiece();
+          break;
     }
   }
 }
