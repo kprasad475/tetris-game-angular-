@@ -67,18 +67,64 @@ currentY: number = 0;
     }
   }
 
-  draw(){
-
+  draw() {
+    // Clear the board
+    for (let row = 0; row < 20; row++) {
+      for (let col = 0; col < 10; col++) {
+        this.board[row][col] = 0;
+      }
+    }
+  
+    // Draw the current piece
+    for (let row = 0; row < this.currentPiece.shape.length; row++) {
+      for (let col = 0; col < this.currentPiece.shape[row].length; col++) {
+        if (this.currentPiece.shape[row][col]) {
+          this.board[this.currentY + row][this.currentX + col] = 1;
+        }
+      }
+    }
   }
 
 
 
   rotate() {
-    // Logic to rotate the piece
+    const newShape = this.currentPiece.shape[0].map((_: number, colIndex: number) => 
+      this.currentPiece.shape.map((row: number[]) => row[colIndex]).reverse()
+    );
+  
+    const originalShape = this.currentPiece.shape;
+    this.currentPiece.shape = newShape;
+  
+    if (!this.isValidPosition(this.currentX, this.currentY)) {
+      this.currentPiece.shape = originalShape; // Revert rotation if invalid
+    } else {
+      this.draw();
+    }
   }
 
   moveDown() {
-    // Logic to move the piece down
+    if (this.isValidPosition(this.currentX, this.currentY + 1)) {
+      this.currentY++;
+    } else {
+      this.placePiece();
+      this.clearLines();
+      this.spawnPiece();
+    }
+    this.draw();
+  }
+  
+  placePiece() {
+    for (let row = 0; row < this.currentPiece.shape.length; row++) {
+      for (let col = 0; col < this.currentPiece.shape[row].length; col++) {
+        if (this.currentPiece.shape[row][col]) {
+          this.board[this.currentY + row][this.currentX + col] = 1;
+        }
+      }
+    }
+  }
+  
+  clearLines() {
+    // Logic to clear full lines and update the score
   }
 
   @HostListener('window:keydown', ['$event'])
