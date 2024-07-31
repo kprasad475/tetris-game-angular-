@@ -54,12 +54,24 @@ currentY: number = 0;
     return true;
   }
   moveLeft() {
-    // Logic to move the piece left
+    if (this.isValidPosition(this.currentX - 1, this.currentY)) {
+      this.currentX--;
+      this.draw();
+    }
   }
 
   moveRight() {
-    // Logic to move the piece right
+    if (this.isValidPosition(this.currentX + 1, this.currentY)) {
+      this.currentX++;
+      this.draw();
+    }
   }
+
+  draw(){
+
+  }
+
+
 
   rotate() {
     // Logic to rotate the piece
